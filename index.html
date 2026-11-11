@@ -101,11 +101,15 @@ h1 .arrow{color:var(--accent); font-weight:600; padding:0 .08em}
 .score-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:10px 18px; margin-bottom:14px}
 .sg-item{font-size:13.5px}
 .sg-item b{display:block; font-size:14px; margin-bottom:3px}
+.sg-prio{display:inline-block; font-size:10px; font-weight:700; padding:0.5px 7px; border-radius:99px; border:1.5px solid currentColor; vertical-align:1px; margin-left:6px}
+.sg-prio.p0{color:var(--accent-ink)}
+.sg-prio.p1{color:var(--muted)}
 .sg-bar{display:flex; height:7px; border-radius:99px; overflow:hidden; background:var(--line)}
 .sg-bar i{display:block; height:100%}
 .sg-bar .ok{background:var(--ok-fg)}
 .sg-bar .pt{background:var(--part-fg)}
 .sg-bar .nd{background:var(--no-fg)}
+.sg-bar .na{background:var(--none-fg)}
 .sg-item span{color:var(--muted); font-size:12.5px}
 .score p{margin:0; font-size:13.5px; color:var(--muted); max-width:72ch}
 .score p b{color:var(--ink)}
@@ -160,6 +164,7 @@ details[open] .caret{transform:rotate(90deg)}
 .pill.pt{color:var(--part-fg); background:var(--part-bg)}
 .pill.nd{color:var(--no-fg); background:var(--no-bg)}
 .pill.ne{color:var(--none-fg); background:var(--none-bg)}
+.pill.na{color:var(--muted); background:transparent; border:1.5px solid var(--line)}
 .todos{margin:0; padding:4px 16px 12px 44px; list-style:none}
 .todos li{position:relative; padding:5px 0 5px 4px; font-size:14.5px; color:var(--ink)}
 .todos li::before{
@@ -182,10 +187,12 @@ details[open] .caret{transform:rotate(90deg)}
 .ev.pt{border-left-color:var(--part-fg)}
 .ev.nd{border-left-color:var(--no-fg)}
 .ev.ne{border-left-color:var(--none-fg)}
+.ev.na{border-left-color:var(--none-fg)}
 .ev-label{font-size:12px; font-weight:700; margin-bottom:6px; color:var(--ok-fg)}
 .ev.pt .ev-label{color:var(--part-fg)}
 .ev.nd .ev-label{color:var(--no-fg)}
 .ev.ne .ev-label{color:var(--none-fg)}
+.ev.na .ev-label{color:var(--muted)}
 .ev ul{margin:0; padding-left:18px}
 .ev li{margin-bottom:5px}
 .ev li:last-child{margin-bottom:0}
@@ -233,18 +240,18 @@ button.toggle:hover{background:var(--accent-soft)}
 <p class="north"><em>North star:</em> move from meeting expectations at PD II to exceeding them by demonstrating SPD-level behaviours — in communication, cross-functional influence, artefact quality, and proactive strategic thinking.</p>
 
 <section class="score">
-  <h3>Where the cycle stands — 22 action items: 18 evidenced, 1 partial, 1 not done, 2 without evidence</h3>
+  <h3>Where the cycle stands — 22 action items: 18 evidenced, 1 partial, 1 not needed, 2 without evidence</h3>
   <div class="score-grid">
-    <div class="sg-item"><b>1 · Communication</b><div class="sg-bar"><i class="ok" style="width:100%"></i></div><span>5 of 5 evidenced</span></div>
-    <div class="sg-item"><b>2 · Alignment</b><div class="sg-bar"><i class="ok" style="width:75%"></i><i class="nd" style="width:25%"></i></div><span>3 evidenced, 1 not done</span></div>
-    <div class="sg-item"><b>3 · Detail</b><div class="sg-bar"><i class="ok" style="width:25%"></i><i class="pt" style="width:25%"></i></div><span>1 + 1 partial, 2 open</span></div>
-    <div class="sg-item"><b>4 · Artefacts</b><div class="sg-bar"><i class="ok" style="width:100%"></i></div><span>4 of 4 evidenced</span></div>
-    <div class="sg-item"><b>5 · Think 10x</b><div class="sg-bar"><i class="ok" style="width:100%"></i></div><span>5 of 5 evidenced</span></div>
+    <div class="sg-item"><b>1 · Communication<span class="sg-prio p0">P0</span></b><div class="sg-bar"><i class="ok" style="width:100%"></i></div><span>5 of 5 evidenced</span></div>
+    <div class="sg-item"><b>2 · Alignment<span class="sg-prio p0">P0</span></b><div class="sg-bar"><i class="ok" style="width:75%"></i><i class="na" style="width:25%"></i></div><span>3 evidenced, 1 not needed</span></div>
+    <div class="sg-item"><b>3 · Detail<span class="sg-prio p1">P1</span></b><div class="sg-bar"><i class="ok" style="width:25%"></i><i class="pt" style="width:25%"></i></div><span>1 + 1 partial, 2 open</span></div>
+    <div class="sg-item"><b>4 · Artefacts<span class="sg-prio p0">P0</span></b><div class="sg-bar"><i class="ok" style="width:100%"></i></div><span>4 of 4 evidenced</span></div>
+    <div class="sg-item"><b>5 · Think 10x<span class="sg-prio p1">P1</span></b><div class="sg-bar"><i class="ok" style="width:100%"></i></div><span>5 of 5 evidenced</span></div>
   </div>
-  <p>The headline: <b>self pickup is the anchor case</b> — one project producing evidence across all five goals — and <b>Goal 5, the proactive-bets growth step this plan was written for, is fully lit</b>. The one not-done item (the friction 1-pager) is marked plainly below; the decision log turned out to be covered by the pod&rsquo;s KRD sign-off process.</p>
+  <p>The headline: <b>self pickup is the anchor case</b> — one project producing evidence across all five goals — and <b>Goal 5, the proactive-bets growth step this plan was written for, is fully lit</b>. The friction 1-pager turned out not to be needed — alignment held ahead of issues all cycle — and the decision log is covered by the pod&rsquo;s KRD sign-off process.</p>
 </section>
 
-<p class="legend"><span class="chip metric">metric</span> proposed success targets, pending manager confirmation. <span class="chip ask">ask</span> support needed from manager or a peer. Status per item: <span class="pill ok">evidenced</span> <span class="pill pt">partial</span> <span class="pill nd">not done</span> <span class="pill ne">no evidence</span> — open each item for the evidence behind its status.</p>
+<p class="legend"><span class="chip metric">metric</span> proposed success targets, pending manager confirmation. <span class="chip ask">ask</span> support needed from manager or a peer. Status per item: <span class="pill ok">evidenced</span> <span class="pill pt">partial</span> <span class="pill na">didn&rsquo;t need it</span> <span class="pill ne">no evidence</span> — open each item for the evidence behind its status.</p>
 
 <div class="controls">
   <span class="counts">5 goals, 22 action items</span>
@@ -360,18 +367,17 @@ button.toggle:hover{background:var(--accent-soft)}
   </div>
 
   <details>
-    <summary><span class="caret">&rsaquo;</span><span class="ai-name">Friction-to-framework habit: a 1-pager whenever misalignment surfaces</span><span class="ai-dates">Sep 1 – Oct 31</span><span class="pill nd">not done</span></summary>
+    <summary><span class="caret">&rsaquo;</span><span class="ai-name">Friction-to-framework habit: a 1-pager whenever misalignment surfaces</span><span class="ai-dates">Sep 1 – Oct 31</span><span class="pill na">didn&rsquo;t need it</span></summary>
     <ul class="todos">
       <li>Create the reusable 1-pager template: context / options / trade-offs / evidence / recommendation</li>
       <li><span class="chip metric">metric</span>At least 1 alignment 1-pager per major project when friction arises</li>
       <li><span class="chip ask">ask</span>Manager: flag misalignment early so the framework is practiced in real time</li>
     </ul>
-    <div class="ev nd">
-      <div class="ev-label">Not done</div>
+    <div class="ev na">
+      <div class="ev-label">Didn&rsquo;t need it</div>
       <ul>
-        <li>No friction 1-pager was produced this cycle. Context worth stating in the review: collaboration stayed aligned ahead of issues (see the pre-review syncs below), so the trigger this item was written for — surfaced misalignment — didn&rsquo;t fire the way it did in NDD.</li>
+        <li>No qualifying friction arose this cycle, so the trigger this item was written for — surfaced misalignment — never fired: alignment held ahead of issues through the pre-review syncs with Gajraj (below) and the framing workshop. That is the outcome this goal exists to produce; the NDD-era pattern didn&rsquo;t repeat.</li>
       </ul>
-      <p class="open-q"><b>Open:</b> confirm that framing is accurate before presenting it — &ldquo;no qualifying friction&rdquo; is a different claim from &ldquo;friction arose but wasn&rsquo;t converted.&rdquo;</p>
     </div>
   </details>
 
