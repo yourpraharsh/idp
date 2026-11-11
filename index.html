@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Praharsh — IDP + Evidence, Sep–Dec 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FDFCFB; --ink:#241E2C; --muted:#70687E; --line:#E7E2EB;
+  --accent:#570D48; --accent-ink:#570D48; --accent-soft:#F7E9F3;
+  --metric-fg:#8A4B08; --metric-bg:#FBEFDD;
+  --ask-fg:#0E5A6B; --ask-bg:#E3F2F5;
+  --ok-fg:#14633A; --ok-bg:#E3F3E9;
+  --part-fg:#8A4B08; --part-bg:#FBEFDD;
+  --no-fg:#8C2F39; --no-bg:#F9E8EA;
+  --none-fg:#70687E; --none-bg:#EFECF2;
+  --ev-bg:#F8F6FA;
+  --row:#FFFFFF;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --paper:#171320; --ink:#ECE7F1; --muted:#9D94AE; --line:#2E2838;
+    --accent:#E39FD0; --accent-ink:#F0C4E2; --accent-soft:#2A1F31;
+    --metric-fg:#E8B06A; --metric-bg:#2E2415;
+    --ask-fg:#7FC8D9; --ask-bg:#10272C;
+    --ok-fg:#7FD6A4; --ok-bg:#15291E;
+    --part-fg:#E8B06A; --part-bg:#2E2415;
+    --no-fg:#E89AA3; --no-bg:#2E1A1D;
+    --none-fg:#9D94AE; --none-bg:#241F2E;
+    --ev-bg:#1C1726;
+    --row:#1E1929;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --paper:#171320; --ink:#ECE7F1; --muted:#9D94AE; --line:#2E2838;
+  --accent:#E39FD0; --accent-ink:#F0C4E2; --accent-soft:#2A1F31;
+  --metric-fg:#E8B06A; --metric-bg:#2E2415;
+  --ask-fg:#7FC8D9; --ask-bg:#10272C;
+  --ok-fg:#7FD6A4; --ok-bg:#15291E;
+  --part-fg:#E8B06A; --part-bg:#2E2415;
+  --no-fg:#E89AA3; --no-bg:#2E1A1D;
+  --none-fg:#9D94AE; --none-bg:#241F2E;
+  --ev-bg:#1C1726;
+  --row:#1E1929;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:"Instrument Sans",-apple-system,"Segoe UI",sans-serif;
+  font-size:15.5px; line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:860px; margin:0 auto; padding:52px 22px 80px}
+a{color:var(--accent-ink)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:4px}
+
+/* ── Header ── */
+.kicker{font-size:14px; color:var(--muted); margin:0 0 10px}
+.kicker strong{color:var(--ink); font-weight:600}
+h1{
+  font-size:clamp(44px,9vw,72px); line-height:1.02; letter-spacing:-0.03em;
+  font-weight:700; margin:0 0 14px;
+}
+h1 .arrow{color:var(--accent); font-weight:600; padding:0 .08em}
+.lede{font-size:17px; color:var(--muted); max-width:58ch; margin:0 0 34px}
+
+/* ── Cycle runway ── */
+.runway{margin:0 0 42px}
+.track{position:relative; height:8px; border-radius:99px; background:var(--line)}
+.fill{position:absolute; inset:0 auto 0 0; border-radius:99px; background:var(--accent); width:0}
+.today{
+  position:absolute; top:-5px; width:18px; height:18px; border-radius:50%;
+  background:var(--paper); border:4.5px solid var(--accent); transform:translateX(-50%);
+}
+.today-label{
+  position:absolute; top:-32px; transform:translateX(-50%);
+  font-size:12.5px; font-weight:600; color:var(--accent-ink); white-space:nowrap;
+}
+.months{display:flex; justify-content:space-between; font-size:12.5px; color:var(--muted); margin-top:9px}
+.months span:last-child{color:var(--ink); font-weight:600}
+
+/* ── North star ── */
+.north{
+  border-left:3px solid var(--accent); background:var(--accent-soft);
+  border-radius:0 12px 12px 0; padding:16px 20px; margin:0 0 30px;
+  font-size:16px; max-width:66ch;
+}
+.north em{font-style:normal; font-weight:600}
+
+/* ── Scoreboard ── */
+.score{border:1.5px solid var(--ink); border-radius:14px; padding:18px 20px; margin:0 0 18px}
+.score h3{margin:0 0 12px; font-size:16px; letter-spacing:-0.01em}
+.score-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:10px 18px; margin-bottom:14px}
+.sg-item{font-size:13.5px}
+.sg-item b{display:block; font-size:14px; margin-bottom:3px}
+.sg-bar{display:flex; height:7px; border-radius:99px; overflow:hidden; background:var(--line)}
+.sg-bar i{display:block; height:100%}
+.sg-bar .ok{background:var(--ok-fg)}
+.sg-bar .pt{background:var(--part-fg)}
+.sg-bar .nd{background:var(--no-fg)}
+.sg-item span{color:var(--muted); font-size:12.5px}
+.score p{margin:0; font-size:13.5px; color:var(--muted); max-width:72ch}
+.score p b{color:var(--ink)}
+
+/* ── Legend ── */
+.legend{font-size:14px; color:var(--muted); margin:0 0 36px; max-width:74ch}
+.legend .chip,.legend .pill{vertical-align:1px}
+
+/* ── Goals ── */
+.goal{margin:0 0 44px; border-top:1.5px solid var(--ink); padding-top:20px}
+.goal-head{display:flex; gap:16px; align-items:flex-start; flex-wrap:wrap; margin-bottom:16px}
+.goal-num{
+  font-size:14px; font-weight:700; color:var(--accent-ink);
+  border:1.5px solid var(--accent); border-radius:8px;
+  width:30px; height:30px; display:flex; align-items:center; justify-content:center;
+  flex-shrink:0; margin-top:3px;
+}
+.goal-title{flex:1; min-width:240px}
+h2{font-size:22px; letter-spacing:-0.015em; margin:0 0 4px; font-weight:700}
+.goal-obj{margin:0; color:var(--muted); font-size:15px; max-width:62ch}
+.goal-meta{display:flex; gap:8px; align-items:center; flex-shrink:0; padding-top:5px}
+.dates{font-size:13px; color:var(--muted); white-space:nowrap}
+.prio{font-size:11.5px; font-weight:700; padding:2px 9px; border-radius:99px; border:1.5px solid currentColor}
+.prio.p0{color:var(--accent-ink)}
+.prio.p1{color:var(--muted)}
+
+/* ── Action items ── */
+details{
+  background:var(--row); border:1px solid var(--line); border-radius:10px;
+  margin-bottom:8px; overflow:hidden;
+}
+details[open]{border-color:var(--accent)}
+summary{
+  display:flex; gap:11px; align-items:baseline; cursor:pointer;
+  padding:12px 16px; list-style:none; font-weight:500; flex-wrap:wrap;
+}
+summary::-webkit-details-marker{display:none}
+summary:hover{background:var(--accent-soft)}
+.caret{
+  color:var(--accent-ink); font-weight:700; flex-shrink:0;
+  transition:transform .15s ease; display:inline-block; width:1em;
+}
+details[open] .caret{transform:rotate(90deg)}
+@media (prefers-reduced-motion: reduce){ .caret{transition:none} }
+.ai-name{flex:1; min-width:200px}
+.ai-dates{font-size:12.5px; color:var(--muted); white-space:nowrap}
+.pill{
+  display:inline-block; font-size:11px; font-weight:700; letter-spacing:.02em;
+  padding:1.5px 9px; border-radius:99px; white-space:nowrap;
+}
+.pill.ok{color:var(--ok-fg); background:var(--ok-bg)}
+.pill.pt{color:var(--part-fg); background:var(--part-bg)}
+.pill.nd{color:var(--no-fg); background:var(--no-bg)}
+.pill.ne{color:var(--none-fg); background:var(--none-bg)}
+.todos{margin:0; padding:4px 16px 12px 44px; list-style:none}
+.todos li{position:relative; padding:5px 0 5px 4px; font-size:14.5px; color:var(--ink)}
+.todos li::before{
+  content:""; position:absolute; left:-18px; top:14px;
+  width:7px; height:7px; border:1.5px solid var(--muted); border-radius:2px;
+}
+.chip{
+  display:inline-block; font-size:11px; font-weight:700; letter-spacing:.02em;
+  padding:1px 8px; border-radius:99px; margin-right:7px; vertical-align:1.5px;
+}
+.chip.metric{color:var(--metric-fg); background:var(--metric-bg)}
+.chip.ask{color:var(--ask-fg); background:var(--ask-bg)}
+
+/* ── Evidence blocks ── */
+.ev{
+  margin:0 16px 14px 16px; padding:12px 16px 12px 18px;
+  background:var(--ev-bg); border-radius:0 10px 10px 0;
+  border-left:3px solid var(--ok-fg); font-size:14px;
+}
+.ev.pt{border-left-color:var(--part-fg)}
+.ev.nd{border-left-color:var(--no-fg)}
+.ev.ne{border-left-color:var(--none-fg)}
+.ev-label{font-size:12px; font-weight:700; margin-bottom:6px; color:var(--ok-fg)}
+.ev.pt .ev-label{color:var(--part-fg)}
+.ev.nd .ev-label{color:var(--no-fg)}
+.ev.ne .ev-label{color:var(--none-fg)}
+.ev ul{margin:0; padding-left:18px}
+.ev li{margin-bottom:5px}
+.ev li:last-child{margin-bottom:0}
+.ev .open-q{color:var(--muted); font-size:13px; margin-top:7px}
+.ev .open-q b{color:var(--ink); font-weight:600}
+
+/* ── Controls / footer ── */
+.controls{display:flex; justify-content:space-between; align-items:center; gap:12px; margin:0 0 18px; flex-wrap:wrap}
+.counts{font-size:14px; color:var(--muted)}
+button.toggle{
+  font:inherit; font-size:13.5px; font-weight:600; color:var(--accent-ink);
+  background:none; border:1.5px solid var(--accent); border-radius:99px;
+  padding:6px 16px; cursor:pointer;
+}
+button.toggle:hover{background:var(--accent-soft)}
+
+.pending{border-top:1.5px solid var(--ink); margin-top:10px; padding-top:22px}
+.pending h3{margin:0 0 10px; font-size:17px; letter-spacing:-0.01em}
+.pending ol{margin:0; padding-left:20px; font-size:14.5px; max-width:74ch}
+.pending li{margin-bottom:7px}
+.footnote{
+  border-top:1px solid var(--line); margin-top:26px; padding-top:20px;
+  font-size:13.5px; color:var(--muted); max-width:72ch;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="kicker"><strong>Praharsh Agrawal</strong> — Individual development plan + evidence</p>
+  <h1>PD II<span class="arrow">&nbsp;&rarr;&nbsp;</span>SPD</h1>
+  <p class="lede">Five development goals for the September–December 2026 cycle, evaluated in January 2027 — with evidence of work done mapped to every action item, as of November 7.</p>
+
+  <div class="runway" aria-label="Cycle progress, September 1 to December 31, 2026">
+    <div class="track">
+      <div class="fill" id="fill"></div>
+      <div class="today" id="dot"></div>
+      <div class="today-label" id="dotLabel"></div>
+    </div>
+    <div class="months"><span>Sep</span><span>Oct</span><span>Nov</span><span>Dec</span><span>Eval: Jan</span></div>
+  </div>
+</header>
+
+<p class="north"><em>North star:</em> move from meeting expectations at PD II to exceeding them by demonstrating SPD-level behaviours — in communication, cross-functional influence, artefact quality, and proactive strategic thinking.</p>
+
+<section class="score">
+  <h3>Where the cycle stands — 22 action items: 18 evidenced, 1 partial, 1 not done, 2 without evidence</h3>
+  <div class="score-grid">
+    <div class="sg-item"><b>1 · Communication</b><div class="sg-bar"><i class="ok" style="width:100%"></i></div><span>5 of 5 evidenced</span></div>
+    <div class="sg-item"><b>2 · Alignment</b><div class="sg-bar"><i class="ok" style="width:75%"></i><i class="nd" style="width:25%"></i></div><span>3 evidenced, 1 not done</span></div>
+    <div class="sg-item"><b>3 · Detail</b><div class="sg-bar"><i class="ok" style="width:25%"></i><i class="pt" style="width:25%"></i></div><span>1 + 1 partial, 2 open</span></div>
+    <div class="sg-item"><b>4 · Artefacts</b><div class="sg-bar"><i class="ok" style="width:100%"></i></div><span>4 of 4 evidenced</span></div>
+    <div class="sg-item"><b>5 · Think 10x</b><div class="sg-bar"><i class="ok" style="width:100%"></i></div><span>5 of 5 evidenced</span></div>
+  </div>
+  <p>The headline: <b>self pickup is the anchor case</b> — one project producing evidence across all five goals — and <b>Goal 5, the proactive-bets growth step this plan was written for, is fully lit</b>. The one not-done item (the friction 1-pager) is marked plainly below; the decision log turned out to be covered by the pod&rsquo;s KRD sign-off process.</p>
+</section>
+
+<p class="legend"><span class="chip metric">metric</span> proposed success targets, pending manager confirmation. <span class="chip ask">ask</span> support needed from manager or a peer. Status per item: <span class="pill ok">evidenced</span> <span class="pill pt">partial</span> <span class="pill nd">not done</span> <span class="pill ne">no evidence</span> — open each item for the evidence behind its status.</p>
+
+<div class="controls">
+  <span class="counts">5 goals, 22 action items</span>
+  <button class="toggle" id="toggleAll" aria-expanded="false">Expand all</button>
+</div>
+
+<!-- ───────── Goal 1 ───────── -->
+<section class="goal">
+  <div class="goal-head">
+    <span class="goal-num">1</span>
+    <div class="goal-title">
+      <h2>Communication &amp; influence</h2>
+      <p class="goal-obj">Frame every leadership decision in problem, goal, trade-offs, recommendation, and ask — regardless of who is in the room.</p>
+    </div>
+    <div class="goal-meta"><span class="dates">Sep 1 – Dec 31</span><span class="prio p0">P0</span></div>
+  </div>
+
+  <details>
+    <summary><span class="caret">&rsaquo;</span><span class="ai-name">Adopt a fixed 5-part framing template for every leadership touchpoint</span><span class="ai-dates">Sep 1 – Sep 30</span><span class="pill ok">evidenced</span></summary>
+    <ul class="todos">
+      <li>Draft template: why now / optimizing for / options + trade-offs / recommendation / decision needed</li>
+      <li>Use the template in the next leadership review</li>
+      <li>Refine template after manager debrief</li>
+      <li><span class="chip ask">ask</span>Manager: 15-min post-review debrief after the first 3 reviews</li>
+    </ul>
+    <div class="ev">
+      <div class="ev-label">Evidence</div>
+      <ul>
+        <li>The framing chain runs end-to-end through the self pickup work, visible on the research and variants canvases: <b>why now</b> — user apprehension from LoDs (&ldquo;might not have time to pick the order&rdquo;) and survey problems from working professionals (not at home; hard to find a neighbour to collect); <b>optimizing for</b> — explicit principles derived from evidence (no absolute dates since EDD is unpredictable; communicate as information, not day/date selection, to avoid anxiety; no redundant info); <b>options + trade-offs</b> — variant frames each with stated pros/cons; anchored by the power-user learning (&ldquo;I use self pickup because I can pick up anytime&rdquo;).</li>
+        <li>The <a href="https://meesho.slack.com/archives/C0B6KC1TDHB/p1788945009282109">Sep 9 Slack post</a> follows the same shape: problem → options → parked explorations → future direction → explicit ask.</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="caret">&rsaquo;</span><span class="ai-name">Write a self-contained pre-read for every leadership review</span><span class="ai-dates">Sep 1 – Dec 31</span><span class="pill ok">evidenced</span></summary>
+    <ul class="todos">
+      <li>Write pre-read for the next upcoming leadership review</li>
+      <li>Test each doc: can someone with zero context decide from this alone?</li>
+      <li><span class="chip metric">metric</span>At least 2 pre-reads this cycle reach zero sync follow-up</li>
+      <li><span class="chip ask">ask</span>Manager: share 1–2 strong leadership doc examples as benchmark</li>
+    </ul>
+    <div class="ev">
+      <div class="ev-label">Evidence</div>
+      <ul>
+        <li><a href="https://docs.google.com/document/d/1uXdq-ep5_ck9dy1eoQL_lMckayQ2I5ME7r9Y1djxG5U/edit">Self pickup pre-read doc</a>, grounded in the user research, sent ahead of review.</li>
+        <li>The <a href="https://meesho.slack.com/archives/C0B6KC1TDHB/p1788945009282109">Sep 9 Slack post</a> is itself a self-contained async brief: problem with LoD evidence, FTUX and static options, parked explorations, a specific ask, and a <a href="https://unique-gumption-1dc782.netlify.app">try-it-yourself prototype</a> — a zero-context reader can respond.</li>
+        <li><b>Calling Store at Night</b> (<a href="https://yourpraharsh.github.io/call-store-sheet/">pre-read</a>) and <b>Self Pickup on Cart</b> (<a href="https://yourpraharsh.github.io/self-pickup-on-cart/">pre-read</a>): both run the same pattern — pre-read to pod peers first, sync gated on everyone reading (drop a ✅ when done) — and both are complete decision documents, not summaries. The Call Store sheet opens on a verbatim LOD (a night call that cost an order), quantifies the problem (14% of calling users call between 10&nbsp;PM and 6&nbsp;AM), states the bet with a primary metric and guardrails, shows four explorations each with why-it-lost reasoning, covers edge states, and closes with scope cuts and a reader vote on the open question. The cart pre-read carries the funnel numbers, placement rationale tied to eligibility, the discount logic, a timing-level dev spec, and v2 experiments — and flags the open FTUX point upfront so peers arrive with a POV.</li>
+      </ul>
+      <p class="open-q"><b>Open:</b> the zero-sync-follow-up metric needs manager confirmation against specific docs.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="caret">&rsaquo;</span><span class="ai-name">Add a business/product lens slide to every leadership presentation</span><span class="ai-dates">Oct 1 – Dec 31</span><span class="pill ok">evidenced</span></summary>
+    <ul class="todos">
+      <li>Include at least one business-framing slide in each deck</li>
+      <li><span class="chip metric">metric</span>Business framing present in 50%+ of leadership-facing presentations</li>
+    </ul>
+    <div class="ev">
+      <div class="ev-label">Evidence</div>
+      <ul>
+        <li>Self pickup leadership deck frames both interventions in funnel economics, not UI terms: setting UPI/prepaid expectations upfront → <b>reduces unqualified intent entering the funnel</b> (fewer surprises, less drop-off); one-tap switch to home delivery + COD at payment → <b>recovers qualified intent hitting a payment barrier</b> (order saved via a different fulfilment mode).</li>
+        <li>Business reasoning is on every solution, not a bolted-on slide — stronger than the to-do asked for.</li>
+        <li>The <a href="https://yourpraharsh.github.io/self-pickup-on-cart/">Self Pickup on Cart pre-read</a> is built on the funnel — 60% of prepaid users order via Cart, the cart→review drop, median items at review — and its success section pairs the adoption target with explicit guardrails: total orders and cart orders must not drop.</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="caret">&rsaquo;</span><span class="ai-name">2-minute pre-check before each review: who is in the room, what decision they need</span><span class="ai-dates">Sep 1 – Dec 31</span><span class="pill ok">evidenced</span></summary>
+    <ul class="todos">
+      <li>Note audience and decision needed before every review</li>
+      <li>Adjust framing and depth of the doc or deck based on the pre-check</li>
+      <li><span class="chip metric">metric</span>Zero &ldquo;assumed shared context&rdquo; callouts in reviews this cycle</li>
+    </ul>
+    <div class="ev">
+      <div class="ev-label">Evidence</div>
+      <ul>
+        <li>For the self pickup leadership review: knew the room in advance (business + product leaders) and tailored content to each — <b>funnel breakdown for product</b> (cares about funnel), <b>order-recovery framing for business</b> (cares about orders).</li>
+        <li>Went beyond a static slide: an interactive funnel-breakdown artifact was linked in the deck for the product audience to drill into.</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="caret">&rsaquo;</span><span class="ai-name">Anticipate 3 likely objections before finalising any artefact, address them upfront</span><span class="ai-dates">Sep 1 – Dec 31</span><span class="pill ok">evidenced</span></summary>
+    <ul class="todos">
+      <li>List top 3 objections before finalising each artefact</li>
+      <li>Address objections in the doc or deck before it goes out</li>
+      <li><span class="chip metric">metric</span>Manager observes the ask was clear in at least 3 of 4 leadership reviews</li>
+    </ul>
+    <div class="ev">
+      <div class="ev-label">Evidence</div>
+      <ul>
+        <li>Pros <b>and cons self-stated against own variants</b> on the Figma canvas before review: store card makes timings hard to know (variant 2147226030); might overwhelm users, timeline view might confuse (variant 2147226031) — weaknesses pre-stated so reviewers don&rsquo;t have to discover them.</li>
+        <li>The <a href="https://meesho.slack.com/archives/C0B6KC1TDHB/p1788945009282109">Sep 9 post</a> disclosed parked options and the low-confidence-in-textual-communication reasoning upfront rather than waiting to be asked.</li>
+        <li>Both hosted pre-reads do it structurally: the <a href="https://yourpraharsh.github.io/self-pickup-on-cart/">cart doc</a> presents the two FTUX options with each one&rsquo;s failure mode stated (the expand can shift the item list and catch a mis-tap; starting open gives up the Buy Now continuity), and the <a href="https://yourpraharsh.github.io/call-store-sheet/">Call Store sheet</a> records why every losing exploration lost — objection analysis run on own work and published to peers before the sync.</li>
+      </ul>
+    </div>
+  </details>
+</section>
+
+<!-- ───────── Goal 2 ───────── -->
+<section class="goal">
+  <div class="goal-head">
+    <span class="goal-num">2</span>
+    <div class="goal-title">
+      <h2>Cross-functional alignment</h2>
+      <p class="goal-obj">Respond to friction with structured options and evidence, not frustration — independent of who the PM is.</p>
+    </div>
+    <div class="goal-meta"><span class="dates">Sep 1 – Nov 30</span><span class="prio p0">P0</span></div>
+  </div>
+
+  <details>
+    <summary><span class="caret">&rsaquo;</span><span class="ai-name">Friction-to-framework habit: a 1-pager whenever misalignment surfaces</span><span class="ai-dates">Sep 1 – Oct 31</span><span class="pill nd">not done</span></summary>
+    <ul class="todos">
+      <li>Create the reusable 1-pager template: context / options / trade-offs / evidence / recommendation</li>
+      <li><span class="chip metric">metric</span>At least 1 alignment 1-pager per major project when friction arises</li>
+      <li><span class="chip ask">ask</span>Manager: flag misalignment early so the framework is practiced in real time</li>
+    </ul>
+    <div class="ev nd">
+      <div class="ev-label">Not done</div>
+      <ul>
+        <li>No friction 1-pager was produced this cycle. Context worth stating in the review: collaboration stayed aligned ahead of issues (see the pre-review syncs below), so the trigger this item was written for — surfaced misalignment — didn&rsquo;t fire the way it did in NDD.</li>
+      </ul>
+      <p class="open-q"><b>Open:</b> confirm that framing is accurate before presenting it — &ldquo;no qualifying friction&rdquo; is a different claim from &ldquo;friction arose but wasn&rsquo;t converted.&rdquo;</p>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="caret">&rsaquo;</span><span class="ai-name">10-min pre-review alignment sync with PM before every leadership review</span><span class="ai-dates">Sep 1 – Nov 30</span><span class="pill ok">evidenced</span></summary>
+    <ul class="todos">
+      <li>Schedule a PM sync ahead of each leadership review</li>
+      <li><span class="chip metric">metric</span>PM confirms shared direction before at least 2 reviews this cycle</li>
+      <li><span class="chip metric">metric</span>No misalignment visible to leadership during pod reviews</li>
+    </ul>
+    <div class="ev">
+      <div class="ev-label">Evidence</div>
+      <ul>
+        <li>Pre-review alignment syncs with PM <b>Gajraj</b> have been happening ahead of leadership reviews this cycle.</li>
+      </ul>
+      <p class="open-q"><b>Open:</b> add the count (how many reviews had a sync beforehand) and confirm no misalignment surfaced in any pod review — &ldquo;3 reviews, zero misalignment&rdquo; is enough to close both metrics.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="caret">&rsaquo;</span><span class="ai-name">Run a 30-min framing workshop for any project entering ambiguity</span><span class="ai-dates">Sep 15 – Nov 30</span><span class="pill ok">evidenced</span></summary>
+    <ul class="todos">
+      <li>Volunteer to run the framing session for the next ambiguous project</li>
+      <li>Capture agreed framing and share it back with the pod</li>
+    </ul>
+    <div class="ev">
+      <div class="ev-label">Evidence</div>
+      <ul>
+        <li>Ran a framing session when <b>prioritisation ambiguity surfaced between the convenience bet and the discount-highlight work</b> in self pickup — ambiguity between two competing directions, exactly what this item was written for. Notably, it was managing the trade-off on the bet proposed in Goal 5.</li>
+      </ul>
+      <p class="open-q"><b>Open:</b> add who attended and the outcome (which direction got priority, and whether it was shared back with the pod).</p>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="caret">&rsaquo;</span><span class="ai-name">Maintain a lightweight decision log per project: decision, who agreed, date</span><span class="ai-dates">Sep 1 – Nov 30</span><span class="pill ok">evidenced</span></summary>
+    <ul class="todos">
+      <li>Set up the decision log format</li>
+      <li>Log every major decision within 24 hours</li>
+      <li><span class="chip ask">ask</span>Manager: monthly spot-check on the decision log</li>
+      <li><span class="chip metric">metric</span>No repeated-debate callout from manager this cycle</li>
+    </ul>
+    <div class="ev">
+      <div class="ev-label">Evidence — covered by the pod&rsquo;s existing KRD process</div>
+      <ul>
+        <li>The decision-log function is already running at pod level: <b>PMs maintain a KRD per project, and every leader signs it off before anything goes to dev</b> — decisions, who agreed, and when, captured in one place. A separate personal log would duplicate it.</li>
+      </ul>
+      <p class="open-q"><b>Open:</b> design-side calls that never reach a KRD (e.g., dropping the text-heavy variant route) aren&rsquo;t captured there — worth acknowledging if the manager probes that gap.</p>
+    </div>
+  </details>
+</section>
+
+<!-- ───────── Goal 3 ───────── -->
+<section class="goal">
+  <div class="goal-head">
+    <span class="goal-num">3</span>
+    <div class="goal-title">
+      <h2>Attention to detail</h2>
+      <p class="goal-obj">Make high-quality output the default through personal systems, not external nudges.</p>
+    </div>
+    <div class="goal-meta"><span class="dates">Sep 1 – Dec 31</span><span class="prio p1">P1</span></div>
+  </div>
+
+  <details>
+    <summary><span class="caret">&rsaquo;</span><span class="ai-name">Personal launch-readiness checklist before any artefact goes to review</span><span class="ai-dates">Sep 1 – Sep 30</span><span class="pill pt">partial</span></summary>
+    <ul class="todos">
+      <li>Build the checklist: edge cases, all states, copy reviewed, prior feedback incorporated</li>
+      <li><span class="chip metric">metric</span>Checklist used on 100% of artefacts going to leadership</li>
+    </ul>
+    <div class="ev pt">
+      <div class="ev-label">Partial — rigor demonstrated, written checklist not shown</div>
+      <ul>
+        <li>The self pickup Figma canvases cover <b>main flow, change-stores flow, error handling, price details, and small-device views</b> — edge cases and states resolved before review, which is what the checklist exists to enforce.</li>
+        <li>The FTUX loading canvas extends it: branches for whether the user clicks mid-load, store beyond 1&nbsp;km, and the no-store-found fallback (bottom sheet → home delivery on dismissal) — marked <b>Ready for dev</b>, states resolved before handoff rather than patched after.</li>
+        <li>The <a href="https://yourpraharsh.github.io/call-store-sheet/">Call Store sheet</a> shows the same rigor on a second project: after-midnight copy change, a fallback when store hours aren&rsquo;t listed, short-phone (360&nbsp;×&nbsp;640) behaviour, status pinned under scroll, and reduced-motion handling — all specified before the sync.</li>
+      </ul>
+      <p class="open-q"><b>Open:</b> if a written checklist exists anywhere (Notion, FigJam, a sticky in the file), this upgrades from &ldquo;demonstrated&rdquo; to &ldquo;built and used.&rdquo;</p>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="caret">&rsaquo;</span><span class="ai-name">Feedback closure log: received &rarr; action taken &rarr; shared back within 3 days</span><span class="ai-dates">Sep 1 – Dec 31</span><span class="pill ok">evidenced</span></summary>
+    <ul class="todos">
+      <li>Set up the feedback closure log</li>
+      <li><span class="chip metric">metric</span>All non-blocking feedback closed within 3 days</li>
+      <li><span class="chip metric">metric</span>Every review entered with zero open feedback items</li>
+      <li><span class="chip ask">ask</span>Manager: flag detail issues immediately, not at review, so loops close faster</li>
+    </ul>
+    <div class="ev">
+      <div class="ev-label">Evidence — closure loop running; formal log not maintained</div>
+      <ul>
+        <li><b>Design feedback, closed in under 24 hours:</b> Madhurita&rsquo;s feedback on self pickup variants (Aug 20, 11:41&nbsp;PM — EDD prominence, confusing day-2/day-3 copy, test-on-ground) → point-by-point response with clarifying questions and the reasoning for dropping the text-heavy route (Aug 21, 2:43&nbsp;PM) → new variant built and shared with a recording the same evening (6:35&nbsp;PM). Pre-cycle date, included as proof the habit existed going in.</li>
+        <li><b>In-cycle, from dev handoff:</b> engineering flagged that the store-not-loading case had no design — designed it and shipped it to Ready for dev (the FTUX loading canvas above).</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="caret">&rsaquo;</span><span class="ai-name">Weekly 30-min self-audit of open artefacts and feedback loops</span><span class="ai-dates">Sep 1 – Dec 31</span><span class="pill ne">no evidence</span></summary>
+    <ul class="todos">
+      <li>Block a recurring 30-min weekly slot</li>
+      <li>Review open artefacts and close pending loops each week</li>
+    </ul>
+    <div class="ev ne">
+      <div class="ev-label">No evidence captured</div>
+      <ul>
+        <li>No recurring self-audit evidenced. If the slot exists on the calendar, that alone is the evidence — otherwise mark it a miss and let the closure speed above carry this goal.</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="caret">&rsaquo;</span><span class="ai-name">Pre-review self-check: &ldquo;Would I be comfortable if the CEO opened this file right now?&rdquo;</span><span class="ai-dates">Sep 1 – Dec 31</span><span class="pill ne">no evidence</span></summary>
+    <ul class="todos">
+      <li>Run the self-check before every review submission</li>
+      <li><span class="chip metric">metric</span>No detail-dip callout at the mid-cycle check-in</li>
+    </ul>
+    <div class="ev ne">
+      <div class="ev-label">No direct evidence — implicitly supported</div>
+      <ul>
+        <li>A private ritual with no artefact of its own; the state-complete, Ready-for-dev canvases above are its visible output. If no detail-dip callout came at mid-cycle, that metric is met — confirm with manager.</li>
+      </ul>
+    </div>
+  </details>
+</section>
+
+<!-- ───────── Goal 4 ───────── -->
+<section class="goal">
+  <div class="goal-head">
+    <span class="goal-num">4</span>
+    <div class="goal-title">
+      <h2>Written artefacts</h2>
+      <p class="goal-obj">Make docs self-contained and audience-adapted, so alignment happens async and work scales beyond synchronous explanation.</p>
+    </div>
+    <div class="goal-meta"><span class="dates">Sep 1 – Dec 31</span><span class="prio p0">P0</span></div>
+  </div>
+
+  <details>
+    <summary><span class="caret">&rsaquo;</span><span class="ai-name">Standard pre-read structure for every major initiative</span><span class="ai-dates">Sep 1 – Sep 30</span><span class="pill ok">evidenced</span></summary>
+    <ul class="todos">
+      <li>Create the template: problem framing / user insights / options / recommendation / trade-offs / decision needed</li>
+      <li><span class="chip metric">metric</span>Every major initiative pre-read uses the structure — no exceptions</li>
+    </ul>
+    <div class="ev">
+      <div class="ev-label">Evidence</div>
+      <ul>
+        <li>The <a href="https://docs.google.com/document/d/1uXdq-ep5_ck9dy1eoQL_lMckayQ2I5ME7r9Y1djxG5U/edit">self pickup pre-reads</a> follow the standard structure: problem framing, user insights, options, recommendation, trade-offs, decision needed.</li>
+        <li>Self pickup is the anchor case for this goal: structured pre-reads written (here), sent to peers and mentors (4.4), feeding the peer half of 4.2 — one system running, not scattered docs.</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="caret">&rsaquo;</span><span class="ai-name">Two-version discipline: deep peer doc + crisp leadership decision doc</span><span class="ai-dates">Oct 1 – Nov 30</span><span class="pill ok">evidenced</span></summary>
+    <ul class="todos">
+      <li>Produce both versions for the next major initiative</li>
+      <li><span class="chip metric">metric</span>At least 2 leadership docs this cycle require zero sync follow-up (verified with manager)</li>
+    </ul>
+    <div class="ev">
+      <div class="ev-label">Evidence — the discipline running on two initiatives</div>
+      <ul>
+        <li><b>Calling Store at Night:</b> deep <a href="https://yourpraharsh.github.io/call-store-sheet/">peer pre-read</a> (research, explorations with why-it-lost reasoning, states, motion) paired with a crisp <a href="https://claude.ai/artifact/AR1ksXXKiP3Tfy2AzLaMyC">leadership decision doc</a>: quantified problem with the LOD, two options with the real trade-off named (quick to build vs motion-designer bandwidth), metric with guardrails, and three explicit decisions asked.</li>
+        <li><b>Self Pickup on Cart:</b> same pairing — the full <a href="https://yourpraharsh.github.io/self-pickup-on-cart/">peer pre-read</a> compressed into a <a href="https://claude.ai/artifact/8vBKGyxZ7h9EbjNpkT4jvx">leadership review doc</a>: problem → funnel data → solution → eligibility rules → open questions with a stated recommendation and its reasoning (start the card open; expanding risks mistaps) → launch-vs-v2 rollout → adoption target with guardrails. Both leadership docs link back to their pre-reads for depth.</li>
+      </ul>
+      <p class="open-q"><b>Open:</b> the zero-sync-follow-up metric still needs manager confirmation once this goes through review.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="caret">&rsaquo;</span><span class="ai-name">Narrative test on every doc: what, why, and what I need from you — without me in the room</span><span class="ai-dates">Sep 1 – Dec 31</span><span class="pill ok">evidenced</span></summary>
+    <ul class="todos">
+      <li>Run the narrative test after writing each doc</li>
+      <li><span class="chip metric">metric</span>At least 1 peer this cycle confirms the thinking was clear from the doc alone</li>
+    </ul>
+    <div class="ev">
+      <div class="ev-label">Evidence</div>
+      <ul>
+        <li>The <a href="https://meesho.slack.com/archives/C0B6KC1TDHB/p1788945009282109">Sep 9 post</a> passes the test on its face: problem (LoD insight — users miss the discount on review, hunt at payment), options with reasoning, what was parked and why, future direction, and a specific ask (&ldquo;reactions on Spotlight A vs B&rdquo;) — plus a <a href="https://unique-gumption-1dc782.netlify.app">working prototype</a>. A zero-context reader can decide and respond.</li>
+        <li>The <b>Calling Store at Night</b> and <b>Self Pickup on Cart</b> syncs were set up async-first: pre-reads sent to the pod, and each meeting scheduled only after everyone confirms they&rsquo;ve read it — the doc doing the alignment before the room does.</li>
+      </ul>
+      <p class="open-q"><b>Open:</b> the metric wants one peer on record confirming clarity-from-doc-alone — a one-line Slack reply is enough.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="caret">&rsaquo;</span><span class="ai-name">Exchange pre-reads with a peer for a doc-quality feedback loop</span><span class="ai-dates">Sep 1 – Dec 31</span><span class="pill ok">evidenced</span></summary>
+    <ul class="todos">
+      <li>Set up the pre-read exchange with a peer</li>
+      <li><span class="chip ask">ask</span>Peer: dry-run pre-reads before leadership reviews</li>
+      <li><span class="chip ask">ask</span>Manager: share SPD/LPD-level written artefact examples as benchmarks</li>
+    </ul>
+    <div class="ev">
+      <div class="ev-label">Evidence</div>
+      <ul>
+        <li>Couple of self pickup pre-reads sent to <b>peers and mentors</b> for feedback before they went wider — the feedback loop this item asks for, running on the cycle&rsquo;s main project.</li>
+      </ul>
+    </div>
+  </details>
+</section>
+
+<!-- ───────── Goal 5 ───────── -->
+<section class="goal">
+  <div class="goal-head">
+    <span class="goal-num">5</span>
+    <div class="goal-title">
+      <h2>Think 10x, take risks</h2>
+      <p class="goal-obj">Move from executing defined bets well to proactively identifying and championing what the next bets should be.</p>
+    </div>
+    <div class="goal-meta"><span class="dates">Sep 1 – Dec 31</span><span class="prio p1">P1</span></div>
+  </div>
+
+  <details>
+    <summary><span class="caret">&rsaquo;</span><span class="ai-name">Opportunity briefs: 1–2 big-bet areas with problem, why now, platform context, first test</span><span class="ai-dates">Oct 1 – Dec 31</span><span class="pill ok">evidenced</span></summary>
+    <ul class="todos">
+      <li>Share the first opportunity brief with manager by end of October</li>
+      <li>Share the second brief, with an MVP path, by mid-December</li>
+      <li><span class="chip ask">ask</span>Manager: 30-min session to review each brief</li>
+    </ul>
+    <div class="ev">
+      <div class="ev-label">Evidence — two opportunity areas proposed</div>
+      <ul>
+        <li><b>OTP on the ODP page:</b> proposed solving the OTP connection problem on the order details page — grounded in user research where users directly confirmed facing it.</li>
+        <li><b>Price discovery:</b> flagged a platform-wide problem — price differs across pages, creating confusion through the journey.</li>
+      </ul>
+      <p class="open-q"><b>Open:</b> confirm whether either was shared with the manager as a brief/doc (vs proposed in conversation), and attach a first-test/MVP path to each — that closes the item at the exact bar the to-dos set.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="caret">&rsaquo;</span><span class="ai-name">Week-1 assumption challenge for every new project</span><span class="ai-dates">Sep 1 – Dec 31</span><span class="pill ok">evidenced</span></summary>
+    <ul class="todos">
+      <li>List &ldquo;what assumptions are we making&rdquo; in week 1 of each new project</li>
+      <li>Surface assumptions proactively in the pod</li>
+      <li><span class="chip metric">metric</span>At least 1 assumption challenged early with evidence this cycle</li>
+    </ul>
+    <div class="ev">
+      <div class="ev-label">Evidence</div>
+      <ul>
+        <li>Challenged the assumption that the <b>delta between shown and actual delivery dates is negligible</b> in self pickup on cart — surfaced it as a real factor in the decision. Meets the metric.</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="caret">&rsaquo;</span><span class="ai-name">Use research and user evidence to challenge default roadmap assumptions</span><span class="ai-dates">Sep 1 – Dec 31</span><span class="pill ok">evidenced</span></summary>
+    <ul class="todos">
+      <li>Bring an evidence-backed challenge to the next roadmap conversation</li>
+      <li><span class="chip metric">metric</span>At least 1 bold problem statement (not just a solution) proposed in a roadmap or strategy conversation</li>
+    </ul>
+    <div class="ev">
+      <div class="ev-label">Evidence — two problem statements, both evidence-backed</div>
+      <ul>
+        <li><b>Self pickup:</b> proposed <b>convenience as the hinge</b> for the bet — reframing the problem, not executing a handed-down solution. Grounded directly in the research synthesis: LoD apprehension (&ldquo;might not have time to pick it up&rdquo;), survey findings from working professionals (not at home, neighbour hassle), and the power-user learning (&ldquo;I use self pickup because I can pick up anytime&rdquo;).</li>
+        <li><b>Prepaid:</b> proposed <b>trust as the lever to push</b>, in roadmap conversations with the SPM.</li>
+        <li>Both are problem statements, so the metric is met twice over.</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="caret">&rsaquo;</span><span class="ai-name">Pair every bold idea with the smallest testable MVP path</span><span class="ai-dates">Oct 1 – Dec 31</span><span class="pill ok">evidenced</span></summary>
+    <ul class="todos">
+      <li>Define an MVP test for each idea in the opportunity briefs</li>
+    </ul>
+    <div class="ev">
+      <div class="ev-label">Evidence — MVP-first demonstrated in live delivery</div>
+      <ul>
+        <li><b>Self pickup:</b> scoped post-order convenience integration down to an MVP rather than the full build.</li>
+        <li><b>Checkout:</b> the bigger idea was turning the review page into delivery options — shipped as an MVP so it could be tested quickly instead of waiting for the full vision.</li>
+        <li>Framed as MVP-first behaviour in project work — a stronger demonstration than MVPs attached to proposals alone.</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="caret">&rsaquo;</span><span class="ai-name">Engage in cross-pod conversations to build a POV on unsolved problems</span><span class="ai-dates">Sep 1 – Dec 31</span><span class="pill ok">evidenced</span></summary>
+    <ul class="todos">
+      <li>Join or set up at least 1 cross-pod conversation per month</li>
+      <li><span class="chip ask">ask</span>Manager: cross-pod roadmap context so ideas are grounded in org strategy</li>
+    </ul>
+    <div class="ev">
+      <div class="ev-label">Evidence</div>
+      <ul>
+        <li><b>PDP discovery:</b> contributing prior PDP depth to other designers — directions worth exploring, user insights from past work.</li>
+        <li><b>Sort &amp; filter:</b> helping designers unlock new ideas, drawing on previous experience with the surface.</li>
+        <li><b>Prepaid:</b> engaging with the SPM on the roadmap, giving inputs on what can be picked up this cycle.</li>
+      </ul>
+    </div>
+  </details>
+</section>
+
+<section class="pending">
+  <h3>Close these before the Jan review</h3>
+  <ol>
+    <li><b>Manager sign-off on the tagged metrics</b> — they were never formally agreed; walk through them in a 1:1 and confirm which count.</li>
+    <li><b>Zero-sync-follow-up confirmations</b> — name the specific docs with your manager (metrics on 1.2 and 4.2).</li>
+    <li><b>Numbers on the Gajraj syncs</b> — how many reviews had one; whether any misalignment surfaced (2.2&rsquo;s two metrics).</li>
+    <li><b>MVP paths on the two opportunity areas (5.1)</b> — attach a first test to OTP-on-ODP and price discovery; one supporting signal (CX tickets, drop-off data) for price discovery. The Call Store sheet already has the exact brief shape to reuse: problem → why now → bet → first test → metric.</li>
+    <li><b>Link access</b> — confirm the pre-read Google Doc and the funnel-breakdown artifact open for people outside your account; a dead link undercuts the evidence.</li>
+    <li><b>Framing workshop details (2.3)</b> — attendees and outcome, one line each.</li>
+  </ol>
+</section>
+
+<p class="footnote">Tagged metrics and asks were not part of the originally agreed plan — confirm them with your manager before treating them as commitments. Evidence statuses reflect what&rsquo;s been captured as of Nov 7; the Madhurita feedback thread (Aug 20–21) predates the Sep 1 cycle start and is included, date visible, as proof the habit existed going in. Sources: the org IDP tool (goal → action item → to-do), self pickup/checkout/prepaid project artefacts, Slack threads, Figma canvases, and the user research synthesis.</p>
+
+</div>
+
+<script>
+(function(){
+  // Cycle runway: Sep 1 – Dec 31, 2026
+  var start = new Date(2026,8,1), end = new Date(2027,0,1); // exclusive end
+  var now = new Date();
+  var pct = (now - start) / (end - start);
+  pct = Math.max(0, Math.min(1, pct));
+  var pctStr = (pct*100).toFixed(1) + "%";
+  document.getElementById("fill").style.width = pctStr;
+  var dot = document.getElementById("dot"), label = document.getElementById("dotLabel");
+  dot.style.left = pctStr; label.style.left = pctStr;
+  var months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  if (now < start) label.textContent = "Starts Sep 1";
+  else if (now >= end) label.textContent = "Cycle complete";
+  else label.textContent = "Today, " + months[now.getMonth()] + " " + now.getDate();
+
+  // Expand / collapse all
+  var btn = document.getElementById("toggleAll");
+  var all = Array.prototype.slice.call(document.querySelectorAll("details"));
+  function allOpen(){ return all.every(function(d){ return d.open; }); }
+  function sync(){
+    var open = allOpen();
+    btn.textContent = open ? "Collapse all" : "Expand all";
+    btn.setAttribute("aria-expanded", open ? "true" : "false");
+  }
+  btn.addEventListener("click", function(){
+    var target = !allOpen();
+    all.forEach(function(d){ d.open = target; });
+    sync();
+  });
+  all.forEach(function(d){ d.addEventListener("toggle", sync); });
+})();
+</script>
+</body>
+</html>
